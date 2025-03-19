@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Attrition Prediction</title>
+  <style>
+    /* Overall Body Styling */
+    body {
+      background: linear-gradient(135deg, #141E30, #243B55);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #ffffff;
+    }
+
+    /* Container for the Form */
+    .container {
+      width: 40%;
+      margin: 50px auto;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+      padding: 40px 50px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #66ccff;
+    }
+
+    /* Form Elements Styling */
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #cccccc;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: #ffffff;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      background: rgba(255,255,255,0.2);
+      outline: none;
+      transform: scale(1.02);
+    }
+
+    input[type="submit"] {
+      background-color: #007BFF;
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      width: 100%;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #3399FF;
+      transform: scale(1.02);
+    }
+
+    /* Datalist styling remains browser dependent */
+    datalist {
+      width: 100%;
+    }
+
+    /* Result Box Styling */
+    .result {
+      width: 40%;
+      margin: 30px auto;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8);
+    }
+
+    .result h2 {
+      color: #66ccff;
+      margin-bottom: 20px;
+    }
+
+    .result p {
+      font-size: 40px;
+      font-weight: bold;
+      color: #ffcc00;
+      margin-top: 10px;
+    }
+
+    .input-summary {
+      text-align: left;
+      padding-left: 10%;
+      font-size: 16px;
+      color: #cccccc;
+    }
+
+    .input-summary b {
+      color: #66ccff;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .container, .result {
+        width: 80%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Employee Attrition Prediction</h1>
+    <form action="{{ url_for('main') }}" method="POST">
+      <label for="OverTime">OverTime</label>
+      <input list="ot" name="OverTime" id="OverTime" required>
+      <datalist id="ot">
+        <option value="Yes">
+        <option value="No">
+      </datalist>
+
+      <label for="MaritalStatus">Marital Status</label>
+      <input list="ms" name="MaritalStatus" id="MaritalStatus" required>
+      <datalist id="ms">
+        <option value="Single">
+        <option value="Married">
+        <option value="Divorced">
+      </datalist>
+
+      <label for="Gender">Gender</label>
+      <input list="gen" name="Gender" id="Gender" required>
+      <datalist id="gen">
+        <option value="Male">
+        <option value="Female">
+      </datalist>
+
+      <label for="Age">Age</label>
+      <input type="number" name="Age" id="Age" required>
+
+      <label for="StockOptionLevel">Stock Option Level</label>
+      <input type="number" name="StockOptionLevel" id="StockOptionLevel" required>
+
+      <label for="MonthlyIncome">Monthly Income</label>
+      <input type="number" name="MonthlyIncome" id="MonthlyIncome" required>
+
+      <label for="YearsAtCompany">Years At Company</label>
+      <input type="number" name="YearsAtCompany" id="YearsAtCompany" required>
+
+      <label for="DistanceFromHome">Distance From Home</label>
+      <input type="number" name="DistanceFromHome" id="DistanceFromHome" required>
+
+      <input type="submit" value="Predict">
+    </form>
+  </div>
+
+  {% if result %}
+  <div class="result">
+    <h2>Prediction Result</h2>
+    <div class="input-summary">
+      {% for variable, value in original_input.items() %}
+        <b>{{ variable }}</b>: {{ value }}<br>
+      {% endfor %}
+    </div>
+    <p>{{ result }}</p>
+  </div>
+  {% endif %}
+</body>
+</html>
